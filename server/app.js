@@ -2,12 +2,15 @@ const express = require('express');
 // Convention for express-graphql, name is various
 const graphqlHTTP = require("express-graphql");
 const mongoose = require('mongoose');
-
+const cors = require('cors');
 const { dbKey } = require('./keys');
 
 console.log(dbKey);
 const schema = require('./schema/schema');
 const app = express();
+
+// allow cross-origin requests
+app.use(cors());
 
 mongoose.connect(`mongodb://user:${dbKey}@ds121593.mlab.com:21593/graphql-demo`,
 { useNewUrlParser: true });
@@ -18,7 +21,7 @@ mongoose.connection.once('open', () => {
 app.use("/graphql",graphqlHTTP({
     // Options, Your Schema Here
     schema,
-    graphiql: true
+    graphiql: true 
 }))
 
 
